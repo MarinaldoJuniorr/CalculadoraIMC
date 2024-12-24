@@ -47,8 +47,6 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, ResultActivity::class.java)
                 intent.putExtra(KEY_RESULT_IMC, resultado)
                 startActivity(intent)
-
-                println("Marinaldo acao do botao" + resultado)
             }
         }
     }
