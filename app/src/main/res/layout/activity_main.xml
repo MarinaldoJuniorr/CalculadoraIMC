@@ -30,6 +30,7 @@
             android:id="@+id/edt_peso"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="6"
             android:hint="Digite seu peso ex: 70.200"
             android:inputType="numberDecimal" />
 
@@ -46,6 +47,7 @@
             android:id="@+id/edt_altura"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="4"
             android:hint="Digite sua altura ex: 1.70"
             android:inputType="numberDecimal"/>
 
