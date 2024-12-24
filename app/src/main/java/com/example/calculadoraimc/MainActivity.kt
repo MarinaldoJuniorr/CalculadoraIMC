@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
                 val peso = pesoStr.toFloat()
                 val altura = alturaStr.toFloat()
 
-
                 val alturaQ2 = altura * altura
                 val resultado = peso / alturaQ2
 
