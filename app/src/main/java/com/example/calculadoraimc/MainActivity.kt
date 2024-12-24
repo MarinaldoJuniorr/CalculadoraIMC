@@ -50,11 +50,6 @@ class MainActivity : AppCompatActivity() {
 
                 println("Marinaldo acao do botao" + resultado)
             }
-
-
-
-
-
         }
     }
 }
