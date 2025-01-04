@@ -1,0 +1,27 @@
+Index: app/src/main/java/com/example/calculadoraimc/ResultActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.calculadoraimc\r\n\r\nimport android.os.Bundle\r\nimport android.widget.TextView\r\nimport androidx.activity.enableEdgeToEdge\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport androidx.core.content.ContextCompat\r\nimport androidx.core.view.ViewCompat\r\nimport androidx.core.view.WindowInsetsCompat\r\n\r\nconst val KEY_RESULT_IMC = \"ResultActivity.KEY_IMC\"\r\n\r\nclass ResultActivity : AppCompatActivity() {\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        enableEdgeToEdge()\r\n        setContentView(R.layout.activity_result)\r\n\r\n        var result = intent.getFloatExtra(KEY_RESULT_IMC, 0f)\r\n\r\n        val tvResult = findViewById<TextView>(R.id.tv_result)\r\n        val tvClassificacao = findViewById<TextView>(R.id.tv_classificacao)\r\n\r\n\r\n        tvResult.text = result.toString()\r\n\r\n        val (classificacao, color)  = when {\r\n            result <= 18.5f -> \"ABAIXO DO PESO\" to R.color.Red\r\n            result in 18.5f .. 24.9f ->\"NORMAL\" to R.color.Green\r\n            result in 25f ..29.9f ->\"SOBREPESO\" to R.color.Yellow\r\n            result in 30f ..  39.9f -> \"OBESIDADE\" to R.color.Orange\r\n            else -> \"OBESIDADE GRAVE\" to R.color.Red\r\n        }\r\n\r\n        tvClassificacao.text = classificacao.toString()\r\n        tvClassificacao.setTextColor(ContextCompat.getColor(this, color))\r\n\r\n    }\r\n}
+===================================================================
+diff --git a/app/src/main/java/com/example/calculadoraimc/ResultActivity.kt b/app/src/main/java/com/example/calculadoraimc/ResultActivity.kt
+--- a/app/src/main/java/com/example/calculadoraimc/ResultActivity.kt	(revision f70b492d466496c3af8e7fffb05f3f7b7f3a7162)
++++ b/app/src/main/java/com/example/calculadoraimc/ResultActivity.kt	(date 1735161686311)
+@@ -21,7 +21,6 @@
+         val tvResult = findViewById<TextView>(R.id.tv_result)
+         val tvClassificacao = findViewById<TextView>(R.id.tv_classificacao)
+ 
+-
+         tvResult.text = result.toString()
+ 
+         val (classificacao, color)  = when {
+@@ -31,9 +30,7 @@
+             result in 30f ..  39.9f -> "OBESIDADE" to R.color.Orange
+             else -> "OBESIDADE GRAVE" to R.color.Red
+         }
+-
+         tvClassificacao.text = classificacao.toString()
+         tvClassificacao.setTextColor(ContextCompat.getColor(this, color))
+-
+     }
+ }
+\ No newline at end of file

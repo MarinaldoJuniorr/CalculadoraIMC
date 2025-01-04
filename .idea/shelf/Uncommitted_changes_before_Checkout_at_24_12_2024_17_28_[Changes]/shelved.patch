@@ -1,0 +1,147 @@
+Index: app/src/main/java/com/example/calculadoraimc/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.calculadoraimc\r\n\r\nimport android.os.Bundle\r\nimport android.widget.Button\r\nimport android.widget.EditText\r\nimport androidx.activity.enableEdgeToEdge\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport androidx.core.view.ViewCompat\r\nimport androidx.core.view.WindowInsetsCompat\r\nimport com.google.android.material.snackbar.Snackbar\r\nimport com.google.android.material.textfield.TextInputEditText\r\n\r\nclass MainActivity : AppCompatActivity() {\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        enableEdgeToEdge()\r\n        setContentView(R.layout.activity_main)\r\n        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->\r\n            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())\r\n            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)\r\n            insets}\r\n\r\n        val edtPeso = findViewById<TextInputEditText>(R.id.edt_peso)\r\n        val edtAltura = findViewById<TextInputEditText>(R.id.edt_altura)\r\n\r\n        val btncalcular = findViewById<Button>(R.id.button)\r\n\r\n        btncalcular.setOnClickListener {\r\n\r\n\r\n            val pesoStr: String = edtPeso.text.toString()\r\n            val alturaStr: String= edtAltura.text.toString()\r\n\r\n            if (pesoStr == \"\" || alturaStr == \"\") {\r\n                Snackbar\r\n                    .make(\r\n                        edtPeso,\r\n                        \"Preencha todos os campos\",\r\n                        Snackbar.LENGTH_LONG\r\n                    )\r\n                    .show()\r\n\r\n            } else {\r\n                val peso = pesoStr.toFloat()\r\n                val altura = alturaStr.toFloat()\r\n\r\n\r\n                val alturaQ2 = altura * altura\r\n                val resultado = peso / alturaQ2\r\n\r\n                println(\"Marinaldo acao do botao\" + resultado)\r\n            }\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/calculadoraimc/MainActivity.kt b/app/src/main/java/com/example/calculadoraimc/MainActivity.kt
+--- a/app/src/main/java/com/example/calculadoraimc/MainActivity.kt	(revision 961032a3362f6e0455086be21c9bd311be240874)
++++ b/app/src/main/java/com/example/calculadoraimc/MainActivity.kt	(date 1735060394186)
+@@ -1,5 +1,6 @@
+ package com.example.calculadoraimc
+ 
++import android.content.Intent
+ import android.os.Bundle
+ import android.widget.Button
+ import android.widget.EditText
+@@ -15,10 +16,6 @@
+         super.onCreate(savedInstanceState)
+         enableEdgeToEdge()
+         setContentView(R.layout.activity_main)
+-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+-            insets}
+ 
+         val edtPeso = findViewById<TextInputEditText>(R.id.edt_peso)
+         val edtAltura = findViewById<TextInputEditText>(R.id.edt_altura)
+@@ -44,11 +41,13 @@
+                 val peso = pesoStr.toFloat()
+                 val altura = alturaStr.toFloat()
+ 
+-
+                 val alturaQ2 = altura * altura
+                 val resultado = peso / alturaQ2
+ 
+-                println("Marinaldo acao do botao" + resultado)
++                val intent = Intent(this, ResultActivity::class.java)
++                intent.putExtra(KEY_RESULT_IMC, resultado)
++                startActivity(intent)
++
+             }
+         }
+     }
+Index: app/src/main/java/com/example/calculadoraimc/ResultActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.calculadoraimc\r\n\r\nimport android.os.Bundle\r\nimport androidx.activity.enableEdgeToEdge\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport androidx.core.view.ViewCompat\r\nimport androidx.core.view.WindowInsetsCompat\r\n\r\nclass ResultActivity : AppCompatActivity() {\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        enableEdgeToEdge()\r\n        setContentView(R.layout.activity_result)\r\n        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->\r\n            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())\r\n            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)\r\n            insets\r\n        }\r\n    }\r\n}
+===================================================================
+diff --git a/app/src/main/java/com/example/calculadoraimc/ResultActivity.kt b/app/src/main/java/com/example/calculadoraimc/ResultActivity.kt
+--- a/app/src/main/java/com/example/calculadoraimc/ResultActivity.kt	(revision 961032a3362f6e0455086be21c9bd311be240874)
++++ b/app/src/main/java/com/example/calculadoraimc/ResultActivity.kt	(date 1735061227266)
+@@ -1,20 +1,40 @@
+ package com.example.calculadoraimc
+ 
++import android.graphics.Color
+ import android.os.Bundle
++import android.widget.TextView
+ import androidx.activity.enableEdgeToEdge
+ import androidx.appcompat.app.AppCompatActivity
+ import androidx.core.view.ViewCompat
+ import androidx.core.view.WindowInsetsCompat
++import java.security.Key
++
++const val KEY_RESULT_IMC = "ResultActivity.KEY_IMC"
+ 
+ class ResultActivity : AppCompatActivity() {
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+         enableEdgeToEdge()
+         setContentView(R.layout.activity_result)
+-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+-            insets
++
++        val result = intent.getFloatExtra(KEY_RESULT_IMC, 0f)
++
++        val tvResult = findViewById<TextView>(R.id.tv_result)
++        val tvClassificacao = findViewById<TextView>(R.id.tv_classificacao)
++        tvResult.text = result.toString()
++
++        val classificacao = if (result <= 18.5f) {
++            "ABAIXO DO PESO"
++        } else if (result > 18.5f && result <= 24.9f) {
++            "NORMAL"
++        } else if (result >25f && result <= 29.9f) {
++            "SOBREPESO"
++        } else if (result >30f && result <= 39.9f) {
++            "OBESIDADE"
++        } else {
++            "OBESIDADE GRAVE"
+         }
+-    }
+-}
+\ No newline at end of file
++
++        tvClassificacao.text = classificacao
++   }
++  }
+Index: app/src/main/res/layout/activity_result.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:id=\"@+id/main\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".ResultActivity\">\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+===================================================================
+diff --git a/app/src/main/res/layout/activity_result.xml b/app/src/main/res/layout/activity_result.xml
+--- a/app/src/main/res/layout/activity_result.xml	(revision 961032a3362f6e0455086be21c9bd311be240874)
++++ b/app/src/main/res/layout/activity_result.xml	(date 1735059886246)
+@@ -1,10 +1,32 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
+-    android:id="@+id/main"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
++    android:gravity="center"
++    android:orientation="vertical"
+     tools:context=".ResultActivity">
+ 
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
++
++    <TextView
++        android:id="@+id/tv_result"
++        android:textSize="52sp"
++        android:textStyle="bold"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:maxLength="5"
++        tools:text="23.66" />
++
++    <TextView
++        android:id="@+id/tv_classificacao_label"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="A Classificacao do seu imc e:" />
++
++    <TextView
++        android:id="@+id/tv_classificacao"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++
++        tools:text="NORMAL" />
++</LinearLayout>
+\ No newline at end of file
